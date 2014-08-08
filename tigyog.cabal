@@ -14,4 +14,6 @@ executable tigyog
   main-is: src/Tigyog/Web.hs
   -- other-modules:
   build-depends:  base ==4.6.*,
-                  scotty ==0.8.*
+                  scotty ==0.8.*,
+                  gitlib ==3.1.*,
+                  gitlib-libgit2 ==3.1.*

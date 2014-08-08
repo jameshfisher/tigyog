@@ -11,3 +11,13 @@ package { "git":
 package { "language-pack-en":
   ensure  => present
 }
+
+# Required for gitlib-libgit2
+package { "libssl-dev":
+  ensure  => present
+}
+
+# Required for gitlib-libgit2
+package { "libicu-dev":
+  ensure  => present
+}
