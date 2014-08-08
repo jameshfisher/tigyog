@@ -1,4 +1,4 @@
-module Tigyog.Git (getCommitMessage) where
+module Tigyog.Git (getCommitMessage, getBlobContents) where
 
 import Git hiding (CommitOid, Commit)
 import Git.Libgit2
@@ -158,3 +158,11 @@ getCommit t = parseCommitHash t >>= lookupCommit'''
 
 getCommitMessage :: Text -> IO Text
 getCommitMessage t = fmap commitLog $ getCommit t
+
+-- lookupBlob :: BlobOid r -> m (Blob r m)
+-- lookupBlob :: BlobOid r -> m (Blob r m)
+
+getBlobContents :: Text -> IO Text
+getBlobContents h = return h -- FIXME
+
+-- getBlobContentsByPathOnBranch :: Text -> FilePath ->

@@ -3,7 +3,7 @@ module Main where
 
 import Web.Scotty
 
-import Tigyog.Git (getCommitMessage)
+import Tigyog.Git (getCommitMessage, getBlobContents)
 
 import Data.Monoid (mconcat)
 import Control.Monad.IO.Class (liftIO)
@@ -14,3 +14,8 @@ main = scotty 3000 $ do
     hash <- param "hash"
     author <- liftIO $ getCommitMessage hash
     html $ fromStrict author
+
+  get "/api/v1/blob/:hash" $ do
+    hash <- param "hash"
+    blobText <- liftIO $ getBlobContents hash
+    text $ fromStrict blobText
