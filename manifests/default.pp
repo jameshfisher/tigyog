@@ -21,3 +21,9 @@ package { "libssl-dev":
 package { "libicu-dev":
   ensure  => present
 }
+
+exec { "/usr/bin/cabal update":
+  require => Package["haskell-platform"],
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
+}
