@@ -27,7 +27,25 @@ fpm/tigyog.deb: fpm/tigyog
 	  --vendor      jameshfisher@gmail.com    \
 	  --url         http://tigyog.org/        \
 	  --license     GPL3                      \
-	  --prefix      /opt/tigyog/              \
+	  --prefix      /opt/tigyog               \
+	  tigyog
+
+fpm/tigyog.rpm: fpm/tigyog
+	cd fpm && \
+	fpm                                       \
+	  --name        tigyog                    \
+	  --description 'Git project management'  \
+	  --version     ${VERSION}                \
+	  --package     tigyog.rpm                \
+	  -t            rpm                       \
+	  -s            dir                       \
+	  --depends     libssl-dev                \
+	  --depends     libicu-dev                \
+	  --maintainer  jameshfisher@gmail.com    \
+	  --vendor      jameshfisher@gmail.com    \
+	  --url         http://tigyog.org/        \
+	  --license     GPL3                      \
+	  --prefix      /opt/tigyog               \
 	  tigyog
 
 clean:

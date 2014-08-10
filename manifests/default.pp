@@ -48,3 +48,9 @@ package { "fpm":
   ensure => present,
   provider => 'gem'
 }
+
+# Required to build rpms with fpm
+package { "rpm":
+  ensure  => present,
+  provider => 'apt'
+}
