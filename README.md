@@ -60,6 +60,13 @@ Confluence, or where Confluence is always out of date? I have. If we equate
   is enforced by the workflow.
 * less duplicated effort.
 
+Some people also put considerable effort into their commit messages: when they
+implement a feature, they will put precise documentation in the commit message
+of the commit that implements it. This is another "documentation black hole":
+end users don't ever read commit messages of the software they use. Instead of
+doing the documentation in the commit message, you should do it *in the
+documentation*.
+
 
 # Links!
 
