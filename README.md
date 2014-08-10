@@ -77,7 +77,8 @@ A page identifier could just be the filepath in the repository.
 
 Wiki pages can link out to code by filepath references. E.g. a wiki page
 "overview" can say, `See the [/Makefile] for implementation.` Code can link out
-to wiki pages, e.g. comments can say `/* FIXME see [wiki:/issues/does-not-build-on-x64] */`. Links could include line/character references and so on.
+to wiki pages, e.g. comments can say `/* FIXME see [wiki:/issues/does-not-build-on-x64] */`.
+Links could include line/character references and so on.
 
 If you're a literate programming kinda guy, you could see this as breaking down
 the distinction between wiki and code. If you prefer to maintain that
@@ -148,7 +149,8 @@ that: they want to first find the page they are interested in, *then* see its
 history and versions.
 
 Implicit here is that *pages have an identity that is preserved across commits*.
-Let's say this identity is the path to the page, e.g. `issues/fix/does-not-build-on-x64`. Users expect to first point their browser at `/issues/fix/does-not-build-on-x64`,
+Let's say this identity is the path to the page, e.g. `issues/fix/does-not-build-on-x64`.
+Users expect to first point their browser at `/issues/fix/does-not-build-on-x64`,
 see a "most current version", and then *optionally* see history/versions.
 
 So an improvement would be that the page at `/issues/fix/does-not-build-on-x64`
