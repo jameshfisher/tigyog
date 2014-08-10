@@ -1,3 +1,5 @@
+VERSION=$(shell perl -n -e'/^version: *([^ ]+)$$/ && print $$1' tigyog.cabal)
+
 dist/build/tigyog/tigyog:
 	cabal clean
 	cabal configure
@@ -14,12 +16,14 @@ fpm/tigyog.deb: fpm/tigyog
 	cd fpm && \
 	fpm                                       \
 	  --name        tigyog                    \
+	  --version     ${VERSION}                \
 	  --package     tigyog.deb                \
 	  -t            deb                       \
 	  -s            dir                       \
 	  --depends     libssl-dev                \
 	  --depends     libicu-dev                \
 	  --maintainer  jameshfisher@gmail.com    \
+	  --license     GPL3                      \
 	  --prefix      /opt/tigyog/              \
 	  tigyog
 
