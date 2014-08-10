@@ -119,6 +119,42 @@ issue is assigned to Jack". What does it mean for an issue to be assigned to
 Jack on the master branch, but assigned to John on a different branch?
 
 
+# How to display history and versioning
+
+One simple approach to displaying pages is: take all content from the current
+master branch. When the master branch moves, the database is updated. In other
+words, the state of the database is the tree of the commit of the master branch.
+
+But this makes Tigyog unaware of history and versioning. The whole point here is
+to have documentation and issue tracking which is aware of history (previous
+commits) and aware of versioning (branches).
+
+A slightly better approach would be to allow the user to jump around between
+treeishes. An input box lets the user enter 'release/1.6', hit return, and get
+shown the state of the wiki/issues on the tree of the commit pointed at by the
+branch `release/1.6`. Or they can enter '8534a23' and see the state of the wiki
+and issues on commit `8534a23`.
+
+Such an approach says: first find the commit you want to look at, then find the
+page you want to look at in that commit. But I think most users want to invert
+that: they want to first find the page they are interested in, *then* see its
+history and versions.
+
+Implicit here is that *pages have an identity that is preserved across commits*.
+Let's say this identity is the path to the page, e.g. `issues/fix/does-not-build-on-x64`. Users expect to first point their browser at `/issues/fix/does-not-build-on-x64`,
+see a "most current version", and then *optionally* see history/versions.
+
+So an improvement would be that the page at `/issues/fix/does-not-build-on-x64`
+defaults to the master branch, but has an input/select box to select
+past/different versions.
+
+This is still not very slick, though. I would like to see those differences
+*integrated* on the page. If a bug page is marked as `status: fixed` on `master`
+and every other branch, but as `status: unfixed` on `release/1.6`, I would like
+the UI to show me `status: fixed (unfixed on release/1.6)`. Similarly for other
+attributes like the description.
+
+
 # Installation
 
 Installation has to be *really fucking simple.*
