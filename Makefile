@@ -1,4 +1,4 @@
-VERSION=$(shell perl -n -e'/^version: *([^ ]+)$$/ && print $$1' tigyog.cabal)
+VERSION=$(shell runhaskell version.hs)
 
 dist/build/tigyog/tigyog:
 	cabal clean
@@ -16,6 +16,7 @@ fpm/tigyog.deb: fpm/tigyog
 	cd fpm && \
 	fpm                                       \
 	  --name        tigyog                    \
+	  --description 'Git project management'  \
 	  --version     ${VERSION}                \
 	  --package     tigyog.deb                \
 	  -t            deb                       \
