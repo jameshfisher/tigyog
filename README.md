@@ -22,7 +22,7 @@ centralized ad-hoc databases, will make things both simpler and more powerful.
 Tigyog will succeed to the extent that this is true, possible, and feasible.
 
 
-# Bug tracker < Wiki
+# Issues ⊆ Documentation
 
 A wiki is an extremely general form of information tracker. It is possible that
 specific tools could be subsumed by the general form of a wiki; if so, this is a
@@ -33,6 +33,35 @@ issue title. The page contents are the issue description. Page attachments are
 issue attachments. Issue comments are subsumed by the issue description. Allow
 pages to have key- value data attached; nearly all issue data is just key-value
 data.
+
+This suggests we should think of issues as being *part of the documentation*.
+Each open issue is a documented fact that says "sorry, this isn't fixed", or
+"sorry, this isn't implemented". You could also notice how project documentation
+is usually divided up in the same way as the project's user stories. What is the
+difference between a closed issue called `feature/search-bar`, which represents
+the fact that a task to implement a search-bar has been completed, and a page in
+your documentation called `feature/search-bar`, which represents the fact that
+the application features a search-bar and says how to use it? The information
+content is the same, isn't it? Can't we interpret "completed feature request
+issues" and "documented features" as one and the same thing? And similarly,
+can't we interpret "uncompleted bugfix tasks" and "known bugs" as identical?
+
+A failure to recognize this results in poor quality documentation, or *no
+documentation*, despite a lot of effort going into writing user stories. Every
+been on a project with loads of issues in JIRA, but virtually nothing in
+Confluence, or where Confluence is always out of date? I have. If we equate
+*writing the issue* and *writing the documentation*, then we suddenly get:
+
+* higher-quality issue descriptions. People put in the effort, because end-users
+  will see it, and it's not transient.
+* higher-quality documentation. You *can't avoid* writing the documentation,
+  because if you don't document it then it won't get implemented. In other
+  words, documentation is pre-implementation, not post-implementation, and this
+  is enforced by the workflow.
+* less duplicated effort.
+
+
+# Links!
 
 Cross-application linking (e.g. "link to an issue from a wiki page" and vice
 versa) becomes just normal wiki linking.
