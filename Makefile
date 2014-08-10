@@ -24,6 +24,7 @@ fpm/tigyog.deb: fpm/tigyog
 	  --depends     libicu-dev                \
 	  --maintainer  jameshfisher@gmail.com    \
 	  --vendor      jameshfisher@gmail.com    \
+	  --url         http://tigyog.org/        \
 	  --license     GPL3                      \
 	  --prefix      /opt/tigyog/              \
 	  tigyog
