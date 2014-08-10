@@ -15,6 +15,7 @@ executable tigyog
   main-is: Tigyog/Web.hs
   build-depends:  base ==4.6.*,
                   scotty ==0.8.*,
+                  http-types ==0.8.*,
                   gitlib ==3.1.*,
                   gitlib-libgit2 ==3.1.*,
                   tagged ==0.7.*,
