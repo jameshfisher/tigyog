@@ -169,6 +169,26 @@ brittle and complex. Notice how just using Git *as* the issue tracker does this
 work for you.
 
 
+# Users
+
+The system has *users*. This must be integrated with user data in Git. When a
+user makes a change to a page in the UI, the commit author is *not* Tigyog, it
+is the user. When a developer adds a commit, the work must show up under her
+name in Tigyog.
+
+Git identifies users by email address. So must Tigyog. Don't bother with
+"username" nonsense.
+
+How do users get authenticated? Tigyog should use some sort of external SSO
+system for this. This makes Tigyog simpler and more modular, but also solves an
+architectural problem: Tigyog can't store user's credentials (password hashes
+etc.), because it only stores things in the repository!
+
+A challenge will be to find an SSO solution that works for all business cases,
+e.g. company X wants to use their hideous custom ancient internal user
+authentication system.
+
+
 # Installation
 
 Installation has to be *really fucking simple.*
