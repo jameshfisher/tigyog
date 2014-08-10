@@ -161,6 +161,13 @@ and every other branch, but as `status: unfixed` on `release/1.6`, I would like
 the UI to show me `status: fixed (unfixed on release/1.6)`. Similarly for other
 attributes like the description.
 
+At the moment, we use systems that post to our issue trackers when we merge a
+change. For example, we might have a rule that says, "when a merge on master
+occurs, if it merges a branch with the name of an issue, post a comment on that
+issue to say that it was merged to master". These kind of integration rules are
+brittle and complex. Notice how just using Git *as* the issue tracker does this
+work for you.
+
 
 # Installation
 
