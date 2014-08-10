@@ -1,29 +1,50 @@
 package { "haskell-platform":
-  ensure  => present
+  ensure  => present,
+  provider => 'apt'
 }
 
 package { "git":
-  ensure  => present
+  ensure  => present,
+  provider => 'apt'
 }
 
 # This silences a warning "WARNING! Your environment specifies an invalid locale."
 # when SSHing to the machine.
 package { "language-pack-en":
-  ensure  => present
+  ensure  => present,
+  provider => 'apt'
 }
 
 # Required for gitlib-libgit2
 package { "libssl-dev":
-  ensure  => present
+  ensure  => present,
+  provider => 'apt'
 }
 
 # Required for gitlib-libgit2
 package { "libicu-dev":
-  ensure  => present
+  ensure  => present,
+  provider => 'apt'
 }
 
 exec { "/usr/bin/cabal update":
   require => Package["haskell-platform"],
   user => "vagrant",
   environment => ["HOME=/home/vagrant"]
+}
+
+package { "ruby":
+  ensure  => present,
+  provider => 'apt'
+}
+
+package { "ruby-dev":
+  ensure => present,
+  provider => 'apt'
+}
+
+package { "fpm":
+  require => [ Package["ruby"], Package["ruby-dev"] ],
+  ensure => present,
+  provider => 'gem'
 }
