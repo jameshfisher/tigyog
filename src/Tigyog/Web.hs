@@ -30,5 +30,7 @@ main = scotty 3000 $ do
     path <- param "2"
     mBlobText <- liftIO $ getFileContents commit path
     case mBlobText of
-      Just blobText -> text $ fromStrict blobText
+      Just blobText -> do
+        text $ fromStrict blobText
+        setHeader "Content-Type" "text/plain; charset=utf-8" -- FIXME scotty should do this https://github.com/scotty-web/scotty/issues/105
       Nothing -> status status404
