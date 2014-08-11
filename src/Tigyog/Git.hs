@@ -1,6 +1,7 @@
-module Tigyog.Git (getCommitMessage, getBlobContents, getFileContents) where
+{-# LANGUAGE OverloadedStrings #-}
+module Tigyog.Git (getCommitMessage, getBlobContents, getMasterFileContents) where
 
-import Git hiding (CommitOid, Commit, BlobOid, Tree, TreeOid, TreeEntry)
+import Git hiding (CommitOid, Commit, BlobOid, Tree, TreeOid, TreeEntry, RefTarget)
 import Git.Libgit2
 import Git.Libgit2.Types
 import Data.Text
@@ -64,9 +65,9 @@ treeEntry' :: Tree -> TreeFilePath -> IO (Maybe TreeEntry)
 treeEntry' t tfp = runStack $ treeEntry t tfp
 
 -- path looks like "foo/bar"; no leading slash
-commitAndPathToBlobOid :: Text -> Text -> IO (Maybe BlobOid)
-commitAndPathToBlobOid commitHash path = do
-  commit <- getCommit commitHash
+commitAndPathToBlobOid :: CommitOid -> Text -> IO (Maybe BlobOid)
+commitAndPathToBlobOid oid path = do
+  commit <- lookupCommit' oid
   let tOid = commitTree commit
   tree <- lookupTree' tOid
   te <- treeEntry' tree (encodeUtf8 path)
@@ -75,11 +76,33 @@ commitAndPathToBlobOid commitHash path = do
     Just _                  -> return Nothing
     Nothing                 -> return Nothing
 
-getFileContents :: Text -> Text -> IO (Maybe Text)
-getFileContents commit path = do
-  bOid <- commitAndPathToBlobOid commit path
+getFileContents :: CommitOid -> Text -> IO (Maybe Text)
+getFileContents oid path = do
+  bOid <- commitAndPathToBlobOid oid path
   case bOid of
     Just b -> do
       t <- catBlobUtf8' b
       return $ Just t
     Nothing -> return Nothing
+
+-- MonadGit LgRepo (ReaderT LgRepo (NoLogging IO))
+-- lookupReference :: RefName -> m (Maybe (RefTarget r))
+lookupReference' :: Text -> IO (Maybe RefTarget)
+lookupReference' = runStack . lookupReference
+
+lookupReference'' :: Text -> IO (Maybe (Oid LgRepo))
+lookupReference'' t = do
+  r <- lookupReference' t
+  case r of
+    Just (RefObj oid) -> return $ Just oid
+    Just (RefSymbolic rn) -> do
+      print rn
+      return Nothing
+    Nothing -> return Nothing
+
+getMasterFileContents :: Text -> IO (Maybe Text)
+getMasterFileContents path = do
+  mOid <- lookupReference'' "refs/heads/master"
+  case mOid of
+    Nothing -> return Nothing
+    Just oid -> getFileContents (toCommit oid) path
