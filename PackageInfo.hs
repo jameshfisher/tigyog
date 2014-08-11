@@ -1,18 +1,43 @@
-module PackageInfo (version) where
+module PackageInfo (TigyogInfo(..), tigyogInfo) where
 
 import Data.List (intercalate)
 import Distribution.Version (versionBranch)
-import Distribution.Package (pkgVersion)
-import Distribution.PackageDescription (packageDescription, package)
+import Distribution.License (License)
+import Distribution.Package (pkgName, PackageName(PackageName), pkgVersion)
+import Distribution.PackageDescription (PackageDescription(..), packageDescription, package)
 import Distribution.PackageDescription.Parse (parsePackageDescription, ParseResult (ParseOk))
+import Distribution.Text (display)
 
-version :: IO String
-version = do
+data TigyogInfo = TigyogInfo {
+  tigyogName :: String,
+  tigyogVersion :: String,
+  tigyogDescription :: String,
+  tigyogHomepage :: String,
+  tigyogMaintainer :: String,
+  tigyogLicense :: String
+}
+
+pkg :: IO PackageDescription
+pkg = do
   contents <- readFile "tigyog.cabal"
   let
     (ParseOk [] genericDescription) = parsePackageDescription contents
-    description = packageDescription genericDescription
-    identifier = package description
+    p = packageDescription genericDescription
+  return p
+
+tigyogInfo :: IO TigyogInfo
+tigyogInfo = do
+  p <- pkg
+  let
+    identifier = package p
+    PackageName name = pkgName identifier
     version = pkgVersion identifier
     branch = versionBranch version
-  return $ intercalate "." (map show branch)
+  return $ TigyogInfo {
+    tigyogName        = name,
+    tigyogVersion     = intercalate "." (map show branch),
+    tigyogDescription = description p,
+    tigyogHomepage    = homepage p,
+    tigyogMaintainer  = maintainer p,
+    tigyogLicense     = display $ license p
+  }

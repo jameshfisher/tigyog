@@ -5,7 +5,7 @@ import Development.Shake.Command
 import Development.Shake.FilePath
 import Development.Shake.Util
 
-import PackageInfo (version)
+import PackageInfo (TigyogInfo(..), tigyogInfo)
 
 main :: IO ()
 main = shakeArgs shakeOptions $ do
@@ -23,42 +23,27 @@ main = shakeArgs shakeOptions $ do
     need ["fpm", "dist/build/tigyog/tigyog"]
     cmd "cp dist/build/tigyog/tigyog" [f]
 
-  "fpm/tigyog.deb" *> \f -> do
-    need ["fpm/tigyog"]
-    v <- liftIO version
-    cmd (Cwd "fpm") "fpm" [
-      "--name",        "tigyog",
-      "--description", "Git project management",
-      "--version",     v,
-      "--package",     "tigyog.deb",
-      "-t",            "deb",
-      "-s",            "dir",
-      "--depends",     "libssl-dev",
-      "--depends",     "libicu-dev",
-      "--maintainer",  "jameshfisher@gmail.com",
-      "--vendor",      "jameshfisher@gmail.com",
-      "--url",         "http://tigyog.org/",
-      "--license",     "GPL3",
-      "--prefix",      "/opt/tigyog",
-      "tigyog"
-      ] :: Action ()
+  let
+    fpm pkgType = do
+      ("fpm/tigyog." ++ pkgType) *> \f -> do
+        need ["fpm/tigyog"]
+        info <- liftIO tigyogInfo
+        cmd (Cwd "fpm") "fpm" [
+          "--name",        tigyogName info,
+          "--description", tigyogDescription info,
+          "--version",     tigyogVersion info,
+          "--maintainer",  tigyogMaintainer info,
+          "--vendor",      tigyogMaintainer info,
+          "--url",         tigyogHomepage info,
+          "--license",     tigyogLicense info,
+          "--package",     "tigyog." ++ pkgType,
+          "-t",            pkgType,
+          "-s",            "dir",
+          "--depends",     "libssl-dev",
+          "--depends",     "libicu-dev",
+          "--prefix",      "/opt/tigyog",
+          "tigyog"
+          ] :: Action ()
 
-  "fpm/tigyog.rpm" *> \f -> do
-    need ["fpm/tigyog"]
-    v <- liftIO version
-    cmd (Cwd "fpm") "fpm" [
-      "--name",        "tigyog",
-      "--description", "Git project management",
-      "--version",     v,
-      "--package",     "tigyog.rpm",
-      "-t",            "rpm",
-      "-s",            "dir",
-      "--depends",     "libssl-dev",
-      "--depends",     "libicu-dev",
-      "--maintainer",  "jameshfisher@gmail.com",
-      "--vendor",      "jameshfisher@gmail.com",
-      "--url",         "http://tigyog.org/",
-      "--license",     "GPL3",
-      "--prefix",      "/opt/tigyog",
-      "tigyog"
-      ] :: Action ()
+  fpm "deb"
+  fpm "rpm"
