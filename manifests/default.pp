@@ -1,6 +1,14 @@
 package { "haskell-platform":
-  ensure  => present,
+  ensure => present,
   provider => 'apt'
+}
+
+file { "/etc/profile.d/cabal-bin.sh":
+  ensure => present,
+  content =>
+'#!/bin/sh
+export PATH=${PATH}:~/.cabal/bin
+',
 }
 
 package { "git":
@@ -53,4 +61,10 @@ package { "fpm":
 package { "rpm":
   ensure  => present,
   provider => 'apt'
+}
+
+exec { "/usr/bin/cabal install shake":
+  require => Package["haskell-platform"],
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
 }
