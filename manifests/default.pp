@@ -68,3 +68,32 @@ exec { "/usr/bin/cabal install shake":
   user => "vagrant",
   environment => ["HOME=/home/vagrant"]
 }
+
+exec { "/usr/bin/cabal install elm":
+  require => Package["haskell-platform"],
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
+}
+
+package { "libncurses5-dev":
+  ensure  => present,
+  provider => 'apt'
+}
+
+exec { "/usr/bin/cabal install elm-server":
+  require => [Package["haskell-platform"], Package["libncurses5-dev"]]
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
+}
+
+exec { "/usr/bin/cabal install elm-repl":
+  require => Package["haskell-platform"],
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
+}
+
+exec { "/usr/bin/cabal install elm-get":
+  require => Package["haskell-platform"],
+  user => "vagrant",
+  environment => ["HOME=/home/vagrant"]
+}
