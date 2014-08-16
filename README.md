@@ -232,3 +232,48 @@ The `tigyog_installer.bash` file is extremely minimal; not much more than
     echo "tigyog" >> .gitignore
     echo "Please commit the results."
 
+
+# Dogfooding
+
+All good projects dogfood. Tigyog is not allowed to have a separate website. The
+server at [http://tigyog.org/](http://tigyog.org/) has to be a plain old Tigyog
+server. Tigyog has to be capable of producing documentation that is good enough,
+and sufficiently customizable, that it can stand as a project homepage.
+
+Obviously, this file should be placed in `docs/` and split out as a wiki. Things
+here that are not implemented, i.e. all of it, should be marked as issues.
+
+
+# A database
+
+While using the database for state is the core idea, using it *directly* is
+less than ideal:
+
+* as a database, there exists no query language.
+* as a database, there is no index.
+
+The plan is that a "real database" can be used as a cache. The entire contents
+of the database are derivable from the contents of the repository; the reason
+for its existence is for expressiveness and efficiency of querying.
+
+I want to be able to write queries like:
+
+What branches does page 'fix-database' exist on?
+
+    PageOnCommit('fix-database', C), BranchCommit(B, C).
+
+All pages in category 'issues' on master branch.
+
+    BranchCommit(master, C), PageOnCommitInCategory(P, issues, C). P = ?
+
+
+The database holds things like:
+
+Information about the structure of the repository:
+
+    Commit(ae134fe).
+    Commit(38644bc).
+    CommitParent()
+
+    Page(ae135f8, /issue/fix-database).
+    Page(/wiki/)
