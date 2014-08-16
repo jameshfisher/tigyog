@@ -42,6 +42,7 @@ main = shakeArgs shakeOptions $ do
           "--depends",     "libssl-dev",
           "--depends",     "libicu-dev",
           "--prefix",      "/opt/tigyog",
+          "--force",
           "tigyog"
           ] :: Action ()
 
