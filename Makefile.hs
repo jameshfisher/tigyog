@@ -9,12 +9,17 @@ import PackageInfo (TigyogInfo(..), tigyogInfo)
 
 main :: IO ()
 main = shakeArgs shakeOptions $ do
-  want ["fpm/tigyog.deb", "fpm/tigyog.rpm", "client/dist/client/src/Main.js"]
+  want ["fpm/tigyog.deb", "fpm/tigyog.rpm", "client/dist/client/src/Main.js", "client/dist/client/src/elm-runtime.js"]
 
   "server/dist/build/tigyog/tigyog" *> \f -> do
     command_ [Cwd "server"] "cabal" ["clean"]
     command_ [Cwd "server"] "cabal" ["configure"]
     command_ [Cwd "server"] "cabal" ["build"]
+
+  "client/dist/client/src/elm-runtime.js" *> \f -> do
+    Stdout out <- command [] "elm" ["--get-runtime"]
+    let src = init out  -- ugh
+    cmd "cp" [src, f]
 
   "client/dist/client/src/Main.js" *> \f -> do
     command_ [] "elm" [
