@@ -9,19 +9,19 @@ import PackageInfo (TigyogInfo(..), tigyogInfo)
 
 main :: IO ()
 main = shakeArgs shakeOptions $ do
-  want ["dist/build/tigyog/tigyog", "fpm/tigyog.deb", "fpm/tigyog.rpm"]
+  want ["fpm/tigyog.deb", "fpm/tigyog.rpm"]
 
-  "dist/build/tigyog/tigyog" *> \f -> do
-    command_ [] "cabal" ["clean"]
-    command_ [] "cabal" ["configure"]
-    command_ [] "cabal" ["build"]
+  "server/dist/build/tigyog/tigyog" *> \f -> do
+    command_ [Cwd "server"] "cabal" ["clean"]
+    command_ [Cwd "server"] "cabal" ["configure"]
+    command_ [Cwd "server"] "cabal" ["build"]
 
   "fpm" *> \f -> do
     cmd "mkdir -p" [f]
 
   "fpm/tigyog" *> \f -> do
-    need ["fpm", "dist/build/tigyog/tigyog"]
-    cmd "cp dist/build/tigyog/tigyog" [f]
+    need ["fpm", "server/dist/build/tigyog/tigyog"]
+    cmd "cp server/dist/build/tigyog/tigyog" [f]
 
   let
     fpm pkgType = do

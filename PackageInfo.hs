@@ -19,7 +19,7 @@ data TigyogInfo = TigyogInfo {
 
 pkg :: IO PackageDescription
 pkg = do
-  contents <- readFile "tigyog.cabal"
+  contents <- readFile "server/tigyog.cabal"
   let
     (ParseOk [] genericDescription) = parsePackageDescription contents
     p = packageDescription genericDescription
