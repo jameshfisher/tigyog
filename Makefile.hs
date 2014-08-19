@@ -54,6 +54,7 @@ main = shakeArgs shakeOptions $ do
           "--name",        tigyogName info,
           "--description", tigyogDescription info,
           "--version",     tigyogVersion info,
+          "--epoch",       "0",
           "--maintainer",  tigyogMaintainer info,
           "--vendor",      tigyogMaintainer info,
           "--url",         tigyogHomepage info,
