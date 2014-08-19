@@ -81,7 +81,7 @@ package { "libncurses5-dev":
 }
 
 exec { "/usr/bin/cabal install elm-server":
-  require => [Package["haskell-platform"], Package["libncurses5-dev"]]
+  require => [Package["haskell-platform"], Package["libncurses5-dev"]],
   user => "vagrant",
   environment => ["HOME=/home/vagrant"]
 }
