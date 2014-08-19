@@ -22,6 +22,7 @@ main = shakeArgs shakeOptions $ do
     cmd "cp" [src, f]
 
   "client/dist/client/src/Main.js" *> \f -> do
+    need ["client/src/Main.elm"]
     command_ [] "elm" [
       "--only-js",
       "--build-dir=client/dist/",
