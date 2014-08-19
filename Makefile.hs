@@ -37,10 +37,18 @@ main = shakeArgs shakeOptions $ do
     need ["fpm", "server/dist/build/tigyog/tigyog"]
     cmd "cp server/dist/build/tigyog/tigyog" [f]
 
+  "fpm/client/elm-runtime.js" *> \f -> do
+    need ["client/dist/client/src/elm-runtime.js"]
+    cmd "cp" ["client/dist/client/src/elm-runtime.js", f]
+
+  "fpm/client/Main.js" *> \f -> do
+    need ["client/dist/client/src/Main.js"]
+    cmd "cp" ["client/dist/client/src/Main.js", f]
+
   let
     fpm pkgType = do
       ("fpm/tigyog." ++ pkgType) *> \f -> do
-        need ["fpm/tigyog"]
+        need ["fpm/tigyog", "fpm/client/elm-runtime.js", "fpm/client/Main.js"]
         info <- liftIO tigyogInfo
         cmd (Cwd "fpm") "fpm" [
           "--name",        tigyogName info,
@@ -57,7 +65,7 @@ main = shakeArgs shakeOptions $ do
           "--depends",     "libicu-dev",
           "--prefix",      "/opt/tigyog",
           "--force",
-          "tigyog"
+          "tigyog", "client/elm-runtime.js", "client/Main.js"
           ] :: Action ()
 
   fpm "deb"
