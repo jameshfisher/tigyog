@@ -81,13 +81,13 @@ package { "libncurses5-dev":
 }
 
 # elm-repl uses it
-package { "nodejs":
+package { "nodejs-legacy": # Has to be legacy; elm-repl looks for "node" not "nodejs"
   ensure => present,
   provider => 'apt'
 }
 
 exec { "/usr/bin/cabal install elm-get elm-repl elm-server":
-  require => [Package["haskell-platform"], Package["libncurses5-dev"], Package['nodejs']],
+  require => [Package["haskell-platform"], Package["libncurses5-dev"], Package['nodejs-legacy']],
   user => "vagrant",
   environment => ["HOME=/home/vagrant"]
 }
