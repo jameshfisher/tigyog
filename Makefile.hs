@@ -16,6 +16,10 @@ main = shakeArgs shakeOptions $ do
     command_ [Cwd "server"] "cabal" ["configure"]
     command_ [Cwd "server"] "cabal" ["build"]
 
+  "client/dist/client/src/index.htm" *> \f -> do
+    need ["client/src/index.htm"]
+    cmd "cp" ["client/src/index.htm", f]
+
   "client/dist/client/src/elm-runtime.js" *> \f -> do
     Stdout out <- command [] "elm" ["--get-runtime"]
     let src = init out  -- ugh
@@ -38,6 +42,10 @@ main = shakeArgs shakeOptions $ do
     need ["fpm", "server/dist/build/tigyog/tigyog"]
     cmd "cp server/dist/build/tigyog/tigyog" [f]
 
+  "fpm/client/index.htm" *> \f -> do
+    need ["client/dist/client/src/index.htm"]
+    cmd "cp" ["client/dist/client/src/index.htm", f]
+
   "fpm/client/elm-runtime.js" *> \f -> do
     need ["client/dist/client/src/elm-runtime.js"]
     cmd "cp" ["client/dist/client/src/elm-runtime.js", f]
@@ -49,7 +57,7 @@ main = shakeArgs shakeOptions $ do
   let
     fpm pkgType = do
       ("fpm/tigyog." ++ pkgType) *> \f -> do
-        need ["fpm/tigyog", "fpm/client/elm-runtime.js", "fpm/client/Main.js"]
+        need ["fpm/tigyog", "fpm/client/index.htm", "fpm/client/elm-runtime.js", "fpm/client/Main.js"]
         info <- liftIO tigyogInfo
         cmd (Cwd "fpm") "fpm" [
           "--name",        tigyogName info,
@@ -67,7 +75,7 @@ main = shakeArgs shakeOptions $ do
           "--depends",     "libicu-dev",
           "--prefix",      "/opt/tigyog",
           "--force",
-          "tigyog", "client/elm-runtime.js", "client/Main.js"
+          "tigyog", "client/index.htm", "client/elm-runtime.js", "client/Main.js"
           ] :: Action ()
 
   fpm "deb"
