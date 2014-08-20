@@ -11,6 +11,14 @@ export PATH=${PATH}:~/.cabal/bin
 ',
 }
 
+file { "/etc/profile.d/http.sh":
+  ensure => present,
+  content =>
+'#!/bin/bash
+alias http=\'python -m SimpleHTTPServer\'
+',
+}
+
 package { "git":
   ensure  => present,
   provider => 'apt'
